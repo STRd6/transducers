@@ -217,7 +217,6 @@ tap([0..9]) filter((x) -&gt; x % 2 is 0) STDOUT</code></pre>
   tap: tap
   pollute: -&gt;
     Object.keys(Transducer).forEach (name) -&gt;
-      console.log name
       <span class="keyword">return</span> <span class="keyword">if</span> name <span class="keyword">is</span> <span class="string">"pollute"</span>
 
       global[name] = Transducer[name]</code></pre>

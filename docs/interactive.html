@@ -103,7 +103,6 @@ the keys.</p>
             </div>
             <div class="content"><pre><code class="lang-coffeescript">Interactive.register <span class="string">"demo"</span>, ({source, runtimeElement}) -&gt;
   program = CoffeeScript.compile(source)
-  console.log program
   outputElement = document.createElement <span class="string">"pre"</span>
   runtimeElement.empty().append outputElement
 
@@ -116,13 +115,9 @@ the keys.</p>
       <span class="keyword">when</span> <span class="number">2</span>
         outputElement.textContent += <span class="string">"<span class="subst">#{atom}</span>\n"</span>
 
-  console.log <span class="string">"wooo"</span>
-
   executeWithContext program,
     STDOUT: STDOUT
     NULL: -&gt;
-
-  console.log <span class="string">"wat"</span>
 
 Interactive.register <span class="string">"test"</span>, ({source, runtimeElement}) -&gt;
   runtimeElement.append <span class="string">"test"</span></code></pre>
