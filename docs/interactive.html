@@ -46,7 +46,7 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <h2 id="demo-runtimes">Demo Runtimes</h2>
+              <h2 id="helpers">Helpers</h2>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">
@@ -59,6 +59,43 @@
             <div class="annotation">
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Evaluate a program with a given environment object.</p>
+<p>The values of the environment are mapped to local variables with names equal to
+the keys.</p>
+<p>The given program is then run with that environment and optionally a context for
+<code>this</code>.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">executeWithContext</span></span> = (program, environment, context) -&gt;
+  args = Object.keys(environment)
+
+  values = args.map (name) -&gt;
+    environment[name]
+
+  Function(args..., program).apply(context, values)</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <h2 id="demo-runtimes">Demo Runtimes</h2>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
               <p><code>demo</code> examples provide the pipe functions and dislpay all atoms received into
 <code>STDOUT</code> on the righthand side.</p>
@@ -79,49 +116,16 @@
       <span class="keyword">when</span> <span class="number">2</span>
         outputElement.textContent += <span class="string">"<span class="subst">#{atom}</span>\n"</span>
 
+  console.log <span class="string">"wooo"</span>
+
   executeWithContext program,
     STDOUT: STDOUT
     NULL: -&gt;
 
+  console.log <span class="string">"wat"</span>
+
 Interactive.register <span class="string">"test"</span>, ({source, runtimeElement}) -&gt;
   runtimeElement.append <span class="string">"test"</span></code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-5">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-5">&#182;</a>
-              </div>
-              <h2 id="helpers">Helpers</h2>
-
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">
-</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-6">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-6">&#182;</a>
-              </div>
-              <p>Evaluate a program with a given environment object.</p>
-<p>The values of the environment are mapped to local variables with names equal to
-the keys.</p>
-<p>The given program is then run with that environment and optionally a context for
-<code>this</code>.</p>
-
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">executeWithContext</span></span> = (program, environment, context) -&gt;
-  args = Object.keys(environment)
-
-  values = args.map (name) -&gt;
-    environment[name]
-
-  Function(args..., program).apply(context, values)</code></pre>
 </div>
         </li>
         

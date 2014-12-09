@@ -119,6 +119,63 @@ tap([0..9]) map((x) -&gt; x * x) STDOUT</code></pre>
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
+              <h2 id="filter">Filter</h2>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">filter</span></span> = (predicate) -&gt;
+  (reducingFunction) -&gt;
+    (result, input) -&gt;
+      <span class="keyword">switch</span> arguments.length
+        <span class="keyword">when</span> <span class="number">0</span>
+          reducingFunction()
+        <span class="keyword">when</span> <span class="number">1</span>
+          reducingFunction(result)
+        <span class="keyword">when</span> <span class="number">2</span>
+          <span class="keyword">if</span> predicate(input)
+            reducingFunction result, input
+          <span class="keyword">else</span>
+            result</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <blockquote>
+<pre><code>#! demo
+# Filter evens
+tap([0..9]) filter((x) -&gt; x % 2 is 0) STDOUT</code></pre>
+</blockquote>
+<hr>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
               
             </div>
             <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">STDOUT</span></span> = (result, input) -&gt;
@@ -133,10 +190,10 @@ tap([0..9]) map((x) -&gt; x * x) STDOUT</code></pre>
         </li>
         
         
-        <li id="section-8">
+        <li id="section-11">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
               <h2 id="expose">Expose</h2>
 
@@ -147,25 +204,31 @@ tap([0..9]) map((x) -&gt; x * x) STDOUT</code></pre>
         </li>
         
         
-        <li id="section-9">
+        <li id="section-12">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
               
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">module.exports =
+            <div class="content"><pre><code class="lang-coffeescript">module.exports = Transducer =
+  map: map
+  filter: filter
+  tap: tap
   pollute: -&gt;
-    global.map = map
-    global.tap = tap</code></pre>
+    Object.keys(Transducer).forEach (name) -&gt;
+      console.log name
+      <span class="keyword">return</span> <span class="keyword">if</span> name <span class="keyword">is</span> <span class="string">"pollute"</span>
+
+      global[name] = Transducer[name]</code></pre>
 </div>
         </li>
         
         
-        <li id="section-10">
+        <li id="section-13">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-10">&#182;</a>
+                <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
               <h2 id="set-up-live-demos">Set Up Live Demos</h2>
 
@@ -176,10 +239,10 @@ tap([0..9]) map((x) -&gt; x * x) STDOUT</code></pre>
         </li>
         
         
-        <li id="section-11">
+        <li id="section-14">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-11">&#182;</a>
+                <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
               <blockquote>
 <pre><code>#! setup
