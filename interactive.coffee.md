@@ -34,7 +34,6 @@ Demo Runtimes
 
     Interactive.register "demo", ({source, runtimeElement}) ->
       program = CoffeeScript.compile(source)
-      console.log program
       outputElement = document.createElement "pre"
       runtimeElement.empty().append outputElement
 
@@ -47,13 +46,9 @@ Demo Runtimes
           when 2
             outputElement.textContent += "#{atom}\n"
 
-      console.log "wooo"
-
       executeWithContext program,
         STDOUT: STDOUT
         NULL: ->
-      
-      console.log "wat"
 
     Interactive.register "test", ({source, runtimeElement}) ->
       runtimeElement.append "test"

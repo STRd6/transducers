@@ -78,7 +78,6 @@ Expose
       tap: tap
       pollute: ->
         Object.keys(Transducer).forEach (name) ->
-          console.log name
           return if name is "pollute"
 
           global[name] = Transducer[name]
