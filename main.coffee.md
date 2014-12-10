@@ -5,30 +5,22 @@ Exploring transducers.
 
 Applying https://www.youtube.com/watch?v=4KqUvG8HPYo to http://www.danielx.net/stream/docs/
 
-Tap
+tap
 ---
 
 Turn an array into a "stream"
 
     tap = (items) ->
-      (reducingFunction) ->
-        items.reduce (result, item) ->
-          reducingFunction(result, item)
-        , reducingFunction()
+      (output) ->
+        items.forEach output
 
 Map
 ---
 
     map = (f) ->
-      (reducingFunction) ->
-        (result, input) ->
-          switch arguments.length
-            when 0
-              reducingFunction()
-            when 1
-              reducingFunction(result)
-            when 2
-              reducingFunction result, f input
+      (output) ->
+        (input) ->
+          output f input
 
 >     #! demo
 >     # Square 10 numbers
@@ -36,22 +28,26 @@ Map
 
 ---
 
+Partition
+---------
+
+Divide a stream into two streams, one for which the predicate is true, and one
+for which the predicate is false.
+
+    partition = (predicate) ->
+      (left, right) ->
+        (input) ->
+          if predicate(input)
+            left input
+          else
+            right input
+
 Filter
 ------
 
     filter = (predicate) ->
-      (reducingFunction) ->
-        (result, input) ->
-          switch arguments.length
-            when 0
-              reducingFunction()
-            when 1
-              reducingFunction(result)
-            when 2
-              if predicate(input)
-                reducingFunction result, input
-              else
-                result
+      (output) ->
+        partition(predicate)(output, NULL)
 
 >     #! demo
 >     # Filter evens
@@ -59,22 +55,40 @@ Filter
 
 ---
 
-    STDOUT = (result, input) ->
-      switch arguments.length
-        when 0
-          return
-        when 1
-          return result
-        when 2
-          console.log input
+    integrate = (output) ->
+      total = 0
+      (input) ->
+        total += input
+        output total
 
+>     #! demo
+>     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1].forEach integrate integrate STDOUT
+
+    differentiate = (output) ->
+      last = 0
+      (input) ->
+        output input - last
+        last = input
+
+>     #! demo
+>     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1].forEach differentiate STDOUT
+
+
+---
+
+    STDOUT = (result, input) ->
+      console.log input
+
+    NULL = (result, input) ->
 
 Expose
 ------
 
     module.exports = Transducer =
-      map: map
+      differentiate: differentiate
       filter: filter
+      integrate: integrate
+      map: map
       tap: tap
       pollute: ->
         Object.keys(Transducer).forEach (name) ->

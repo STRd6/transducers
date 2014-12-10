@@ -37,14 +37,8 @@ Demo Runtimes
       outputElement = document.createElement "pre"
       runtimeElement.empty().append outputElement
 
-      STDOUT = (result, atom) ->
-        switch arguments.length
-          when 0
-            return
-          when 1
-            return result
-          when 2
-            outputElement.textContent += "#{atom}\n"
+      STDOUT = (input) ->
+        outputElement.textContent += "#{input}\n"
 
       executeWithContext program,
         STDOUT: STDOUT
