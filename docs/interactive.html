@@ -106,14 +106,8 @@ the keys.</p>
   outputElement = document.createElement <span class="string">"pre"</span>
   runtimeElement.empty().append outputElement
 
-  <span class="function"><span class="title">STDOUT</span></span> = (result, atom) -&gt;
-    <span class="keyword">switch</span> arguments.length
-      <span class="keyword">when</span> <span class="number">0</span>
-        <span class="keyword">return</span>
-      <span class="keyword">when</span> <span class="number">1</span>
-        <span class="keyword">return</span> result
-      <span class="keyword">when</span> <span class="number">2</span>
-        outputElement.textContent += <span class="string">"<span class="subst">#{atom}</span>\n"</span>
+  <span class="function"><span class="title">STDOUT</span></span> = (input) -&gt;
+    outputElement.textContent += <span class="string">"<span class="subst">#{input}</span>\n"</span>
 
   executeWithContext program,
     STDOUT: STDOUT
