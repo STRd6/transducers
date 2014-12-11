@@ -145,7 +145,7 @@ for which the predicate is false.</p>
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
-              <h2 id="filter">Filter</h2>
+              <h2 id="alternate">Alternate</h2>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">
@@ -159,11 +159,15 @@ for which the predicate is false.</p>
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              
+              <p>Spread a stream among two sinks evenly.</p>
+
             </div>
-            <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">filter</span></span> = (predicate) -&gt;
-  (output) -&gt;
-    partition(predicate)(output, NULL)</code></pre>
+            <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">alternate</span></span> = (left, right) -&gt;
+  leftSide = <span class="literal">false</span>
+  <span class="function"><span class="title">predicate</span></span> = -&gt;
+    leftSide = !leftSide
+
+  partition(predicate)(left, right)</code></pre>
 </div>
         </li>
         
@@ -175,10 +179,13 @@ for which the predicate is false.</p>
               </div>
               <blockquote>
 <pre><code>#! demo
-# Filter evens
-tap([0..9]) filter((x) -&gt; x % 2 is 0) STDOUT</code></pre>
+# Alternate streams
+[0..9].forEach alternate(
+  map((x) -&gt; -x) STDOUT
+  STDOUT
+)</code></pre>
 </blockquote>
-<hr>
+<h2 id="filter">Filter</h2>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">
@@ -194,6 +201,39 @@ tap([0..9]) filter((x) -&gt; x % 2 is 0) STDOUT</code></pre>
               </div>
               
             </div>
+            <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">filter</span></span> = (predicate) -&gt;
+  (output) -&gt;
+    partition(predicate)(output, NULL)</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <blockquote>
+<pre><code>#! demo
+# Filter evens
+tap([0..9]) filter((x) -&gt; x % 2 is 0) STDOUT</code></pre>
+</blockquote>
+<hr>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              
+            </div>
             <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">integrate</span></span> = (output) -&gt;
   total = <span class="number">0</span>
   (input) -&gt;
@@ -203,10 +243,10 @@ tap([0..9]) filter((x) -&gt; x % 2 is 0) STDOUT</code></pre>
         </li>
         
         
-        <li id="section-13">
+        <li id="section-15">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-13">&#182;</a>
+                <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
               <blockquote>
 <pre><code>#! demo
@@ -223,45 +263,16 @@ tap([0..9]) filter((x) -&gt; x % 2 is 0) STDOUT</code></pre>
         </li>
         
         
-        <li id="section-14">
+        <li id="section-16">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-14">&#182;</a>
+                <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
               <blockquote>
 <pre><code>#! demo
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1].forEach differentiate STDOUT</code></pre>
 </blockquote>
 <hr>
-
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">
-</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-15">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-15">&#182;</a>
-              </div>
-              
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">STDOUT</span></span> = (result, input) -&gt;
-  console.log input
-
-<span class="function"><span class="title">NULL</span></span> = (result, input) -&gt;</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-16">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-16">&#182;</a>
-              </div>
-              <h2 id="expose">Expose</h2>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">
@@ -277,7 +288,37 @@ tap([0..9]) filter((x) -&gt; x % 2 is 0) STDOUT</code></pre>
               </div>
               
             </div>
+            <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">STDOUT</span></span> = (result, input) -&gt;
+  console.log input
+
+<span class="function"><span class="title">NULL</span></span> = (result, input) -&gt;</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <h2 id="expose">Expose</h2>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              
+            </div>
             <div class="content"><pre><code class="lang-coffeescript">module.exports = Transducer =
+  alternate: alternate
   differentiate: differentiate
   filter: filter
   integrate: integrate
@@ -292,10 +333,10 @@ tap([0..9]) filter((x) -&gt; x % 2 is 0) STDOUT</code></pre>
         </li>
         
         
-        <li id="section-18">
+        <li id="section-20">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-18">&#182;</a>
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
               <h2 id="set-up-live-demos">Set Up Live Demos</h2>
 
@@ -306,10 +347,10 @@ tap([0..9]) filter((x) -&gt; x % 2 is 0) STDOUT</code></pre>
         </li>
         
         
-        <li id="section-19">
+        <li id="section-21">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-19">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <blockquote>
 <pre><code>#! setup
