@@ -42,6 +42,26 @@ for which the predicate is false.
           else
             right input
 
+Alternate
+---------
+
+Spread a stream among two sinks evenly.
+
+    alternate = (left, right) ->
+      leftSide = false
+      predicate = ->
+        leftSide = !leftSide
+
+      partition(predicate)(left, right)
+
+>     #! demo
+>     # Alternate streams
+>     [0..9].forEach alternate(
+>       map((x) -> -x) STDOUT
+>       STDOUT
+>     )
+
+
 Filter
 ------
 
@@ -85,6 +105,7 @@ Expose
 ------
 
     module.exports = Transducer =
+      alternate: alternate
       differentiate: differentiate
       filter: filter
       integrate: integrate
