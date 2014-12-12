@@ -28,6 +28,22 @@ Map
 
 ---
 
+attr
+----
+
+    attr = (name) ->
+      map (x) ->
+        x[name]
+
+Cat
+---
+
+Expand arrays into single items.
+
+    each = (output) ->
+      (input) ->
+        [].concat(input).forEach output
+
 Partition
 ---------
 
@@ -96,16 +112,49 @@ Filter
 
 ---
 
-    STDOUT = (result, input) ->
+    STDOUT = (input) ->
       console.log input
 
-    NULL = (result, input) ->
+    NULL = (input) ->
+
+Doneness?
+---------
+
+We'll want some way to indicate a stream is "done".
+
+Say we reach out to a service and process a bunch of records, and then we're
+done. We'll need to notify the remaining transformers and they'll need to
+propagate a done state.
+
+Also it would be nice if we could cancel from the bottom and propagate that back
+up the chain.
+
+The simpler building blocks needn't need to know about this mechanic at all
+and should be able to be transparently wrapped.
+
+>     #! demo
+>     # No need to explicitly say "done", the data goes to STDOUT once it's fetched
+>     $.getJSON("https://api.github.com/users/distri/repos").then each attr("full_name") STDOUT
+
+Sorting
+-------
+
+We'll want to be able to apply a sorting function to a rendered stream 
+concurrently wtih its resolution or afterwards.
+
+Modifying some elements
+-----------------------
+
+For a spreadsheet or data display we want to be able to modify certain elements
+and keep track of their position and changed properties.
 
 Expose
 ------
 
     module.exports = Transducer =
       alternate: alternate
+      attr: attr
+      each: each
       differentiate: differentiate
       filter: filter
       integrate: integrate
