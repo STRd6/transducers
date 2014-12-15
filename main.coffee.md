@@ -14,6 +14,14 @@ Turn an array into a "stream"
       (output) ->
         items.forEach output
 
+Source
+------
+
+    source = (f) ->
+      (input) ->
+        (output) ->
+          output f input
+
 Map
 ---
 
@@ -136,6 +144,32 @@ and should be able to be transparently wrapped.
 >     # No need to explicitly say "done", the data goes to STDOUT once it's fetched
 >     $.getJSON("https://api.github.com/users/distri/repos").then each attr("full_name") STDOUT
 
+    times = (output) ->
+      (input) ->
+        [0..input].forEach output
+
+    rand = (n) ->
+      (output) ->
+        output Math.floor Math.random() * n
+
+>     #! demo
+>     # A random source
+>     rand(10) times STDOUT
+
+    clock = (period) ->
+      (output) ->
+        count = 0
+        setInterval ->
+          output(count)
+          count += 1
+        , period * 1000
+
+>     #! demo
+>     # A clock is never "done"
+>     clock(1) STDOUT
+
+---
+
 Sorting
 -------
 
@@ -154,12 +188,15 @@ Expose
     module.exports = Transducer =
       alternate: alternate
       attr: attr
+      clock: clock
       each: each
       differentiate: differentiate
       filter: filter
       integrate: integrate
       map: map
+      rand: rand
       tap: tap
+      times: times
       pollute: ->
         Object.keys(Transducer).forEach (name) ->
           return if name is "pollute"
