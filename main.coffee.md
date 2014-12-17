@@ -52,6 +52,39 @@ Expand arrays into single items.
       (input) ->
         [].concat(input).forEach output
 
+Buffer Counter
+--------------
+
+Track the current number of items within this segment. Only works for 1-to-1
+mappings, not 1-to-n or filters.
+
+TODO: Figure out how to expose the current count.
+TODO: Figure out the correct way to handle 1-to-* mappings.
+
+    bufferCounter = (pipe) ->
+      (output) ->
+        pending = 0
+
+        countedSegment = pipe (input) ->
+          output input
+          pending -= 1
+
+        (input) ->
+          pending += 1
+          input countedSegment
+
+Delay
+-----
+
+Delay a signal for `duration` seconds.
+
+    delay = (duration) ->
+      (output) ->
+        (input) ->
+          setTimeout ->
+            output input
+          , duration * 1000
+
 Partition
 ---------
 
