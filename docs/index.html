@@ -197,7 +197,7 @@ tap([0..9]) map((x) -&gt; x * x) STDOUT</code></pre>
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
-              <h2 id="partition">Partition</h2>
+              <h2 id="buffer-counter">Buffer Counter</h2>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">
@@ -210,6 +210,78 @@ tap([0..9]) map((x) -&gt; x * x) STDOUT</code></pre>
             <div class="annotation">
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Track the current number of items within this segment. Only works for 1-to-1
+mappings, not 1-to-n or filters.</p>
+<p>TODO: Figure out how to expose the current count.
+TODO: Figure out the correct way to handle 1-to-* mappings.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">bufferCounter</span></span> = (pipe) -&gt;
+  (output) -&gt;
+    pending = <span class="number">0</span>
+
+    countedSegment = pipe (input) -&gt;
+      output input
+      pending -= <span class="number">1</span>
+
+    (input) -&gt;
+      pending += <span class="number">1</span>
+      input countedSegment</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <h2 id="delay">Delay</h2>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Delay a signal for <code>duration</code> seconds.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">delay</span></span> = (duration) -&gt;
+  (output) -&gt;
+    (input) -&gt;
+      setTimeout -&gt;
+        output input
+      , duration * <span class="number">1000</span></code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <h2 id="partition">Partition</h2>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p>Divide a stream into two streams, one for which the predicate is true, and one
 for which the predicate is false.</p>
@@ -226,10 +298,10 @@ for which the predicate is false.</p>
         </li>
         
         
-        <li id="section-15">
+        <li id="section-19">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-15">&#182;</a>
+                <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
               <h2 id="alternate">Alternate</h2>
 
@@ -240,10 +312,10 @@ for which the predicate is false.</p>
         </li>
         
         
-        <li id="section-16">
+        <li id="section-20">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-16">&#182;</a>
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
               <p>Spread a stream among two sinks evenly.</p>
 
@@ -258,10 +330,10 @@ for which the predicate is false.</p>
         </li>
         
         
-        <li id="section-17">
+        <li id="section-21">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-17">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <blockquote>
 <pre><code>#! demo
@@ -280,10 +352,10 @@ for which the predicate is false.</p>
         </li>
         
         
-        <li id="section-18">
+        <li id="section-22">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-18">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
               
             </div>
@@ -294,10 +366,10 @@ for which the predicate is false.</p>
         </li>
         
         
-        <li id="section-19">
+        <li id="section-23">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-19">&#182;</a>
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               <blockquote>
 <pre><code>#! demo
@@ -313,10 +385,10 @@ tap([0..9]) filter((x) -&gt; x % 2 is 0) STDOUT</code></pre>
         </li>
         
         
-        <li id="section-20">
+        <li id="section-24">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-20">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               
             </div>
@@ -329,10 +401,10 @@ tap([0..9]) filter((x) -&gt; x % 2 is 0) STDOUT</code></pre>
         </li>
         
         
-        <li id="section-21">
+        <li id="section-25">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-21">&#182;</a>
+                <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
               <blockquote>
 <pre><code>#! demo
@@ -349,10 +421,10 @@ tap([0..9]) filter((x) -&gt; x % 2 is 0) STDOUT</code></pre>
         </li>
         
         
-        <li id="section-22">
+        <li id="section-26">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-22">&#182;</a>
+                <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
               <blockquote>
 <pre><code>#! demo
@@ -367,10 +439,10 @@ tap([0..9]) filter((x) -&gt; x % 2 is 0) STDOUT</code></pre>
         </li>
         
         
-        <li id="section-23">
+        <li id="section-27">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-23">&#182;</a>
+                <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               
             </div>
@@ -382,10 +454,10 @@ tap([0..9]) filter((x) -&gt; x % 2 is 0) STDOUT</code></pre>
         </li>
         
         
-        <li id="section-24">
+        <li id="section-28">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-24">&#182;</a>
+                <a class="pilcrow" href="#section-28">&#182;</a>
               </div>
               <h2 id="doneness-">Doneness?</h2>
 
@@ -396,10 +468,10 @@ tap([0..9]) filter((x) -&gt; x % 2 is 0) STDOUT</code></pre>
         </li>
         
         
-        <li id="section-25">
+        <li id="section-29">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-25">&#182;</a>
+                <a class="pilcrow" href="#section-29">&#182;</a>
               </div>
               <p>We&#39;ll want some way to indicate a stream is &quot;done&quot;.</p>
 <p>Say we reach out to a service and process a bunch of records, and then we&#39;re
@@ -427,10 +499,10 @@ $.getJSON(&quot;https://api.github.com/users/distri/repos&quot;).then each attr(
         </li>
         
         
-        <li id="section-26">
+        <li id="section-30">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-26">&#182;</a>
+                <a class="pilcrow" href="#section-30">&#182;</a>
               </div>
               <blockquote>
 <pre><code>#! demo
@@ -450,10 +522,10 @@ rand(10) times STDOUT</code></pre>
         </li>
         
         
-        <li id="section-27">
+        <li id="section-31">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-27">&#182;</a>
+                <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
               <blockquote>
 <pre><code>#! demo
@@ -469,10 +541,10 @@ clock(1) STDOUT</code></pre>
         </li>
         
         
-        <li id="section-28">
+        <li id="section-32">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-28">&#182;</a>
+                <a class="pilcrow" href="#section-32">&#182;</a>
               </div>
               <h2 id="sorting">Sorting</h2>
 
@@ -483,10 +555,10 @@ clock(1) STDOUT</code></pre>
         </li>
         
         
-        <li id="section-29">
+        <li id="section-33">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-29">&#182;</a>
+                <a class="pilcrow" href="#section-33">&#182;</a>
               </div>
               <p>We&#39;ll want to be able to apply a sorting function to a rendered stream 
 concurrently wtih its resolution or afterwards.</p>
@@ -499,10 +571,10 @@ concurrently wtih its resolution or afterwards.</p>
         </li>
         
         
-        <li id="section-30">
+        <li id="section-34">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-30">&#182;</a>
+                <a class="pilcrow" href="#section-34">&#182;</a>
               </div>
               <p>For a spreadsheet or data display we want to be able to modify certain elements
 and keep track of their position and changed properties.</p>
@@ -515,10 +587,10 @@ and keep track of their position and changed properties.</p>
         </li>
         
         
-        <li id="section-31">
+        <li id="section-35">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-31">&#182;</a>
+                <a class="pilcrow" href="#section-35">&#182;</a>
               </div>
               
             </div>
@@ -543,10 +615,10 @@ and keep track of their position and changed properties.</p>
         </li>
         
         
-        <li id="section-32">
+        <li id="section-36">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-32">&#182;</a>
+                <a class="pilcrow" href="#section-36">&#182;</a>
               </div>
               <h2 id="set-up-live-demos">Set Up Live Demos</h2>
 
@@ -557,10 +629,10 @@ and keep track of their position and changed properties.</p>
         </li>
         
         
-        <li id="section-33">
+        <li id="section-37">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-33">&#182;</a>
+                <a class="pilcrow" href="#section-37">&#182;</a>
               </div>
               <blockquote>
 <pre><code>#! setup
